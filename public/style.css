@@ -1,0 +1,480 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 25%, #9333EA 50%, #7C3AED 75%, #6366F1 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Efeito de background animado */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.3) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Container principal */
+.container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 3rem;
+    border-radius: 24px;
+    box-shadow: 
+        0 32px 64px rgba(139, 92, 246, 0.15),
+        0 16px 32px rgba(168, 85, 247, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    width: 100%;
+    max-width: 480px;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.container:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+        0 40px 80px rgba(139, 92, 246, 0.2),
+        0 20px 40px rgba(168, 85, 247, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* Título */
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #7C3AED 0%, #A855F7 50%, #EC4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+}
+
+.subtitle {
+    text-align: center;
+    color: #000000;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 2.5rem;
+    opacity: 0.8;
+}
+
+/* Grupos de formulário */
+.form-grupo {
+    margin-bottom: 1.75rem;
+    position: relative;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.75rem;
+    color: #374151;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.01em;
+    position: relative;
+}
+
+label::before {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    background: linear-gradient(135deg, #8B5CF6, #EC4899);
+    border-radius: 50%;
+}
+
+/* Inputs */
+input {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid #E5E7EB;
+    border-radius: 16px;
+    font-size: 1rem;
+    font-weight: 500;
+    background: #FAFAFA;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    color: #1F2937;
+}
+
+input::placeholder {
+    color: #9CA3AF;
+    font-weight: 400;
+}
+
+input:focus {
+    outline: none;
+    border-color: #8B5CF6;
+    background: white;
+    box-shadow: 
+        0 0 0 3px rgba(139, 92, 246, 0.1),
+        0 8px 24px rgba(139, 92, 246, 0.15);
+    transform: translateY(-2px);
+}
+
+input:hover:not(:focus) {
+    border-color: #C7D2FE;
+    background: #FDFDFD;
+}
+
+/* Botão principal */
+button {
+    width: 100%;
+    padding: 1.25rem 1.5rem;
+    background: linear-gradient(135deg, #8B5CF6 0%, #A855F7 50%, #9333EA 100%);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    margin-top: 1rem;
+    letter-spacing: 0.025em;
+    box-shadow: 
+        0 8px 16px rgba(139, 92, 246, 0.3),
+        0 4px 8px rgba(168, 85, 247, 0.2);
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+button:hover::before {
+    left: 100%;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 16px 32px rgba(139, 92, 246, 0.4),
+        0 8px 16px rgba(168, 85, 247, 0.3);
+    background: linear-gradient(135deg, #7C3AED 0%, #9333EA 50%, #8B5CF6 100%);
+}
+
+button:active {
+    transform: translateY(-1px);
+}
+
+button:disabled {
+    background: linear-gradient(135deg, #9CA3AF, #6B7280);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Estados de loading, erro e resultado */
+.loading {
+    display: none;
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #8B5CF6;
+    font-weight: 600;
+    font-size: 1rem;
+    position: relative;
+}
+
+.loading::after {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(139, 92, 246, 0.2);
+    border-radius: 50%;
+    border-top-color: #8B5CF6;
+    animation: spin 1000s linear infinite;
+    margin-left: 0.75rem;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.erro {
+    display: none;
+    color: #DC2626;
+    background: linear-gradient(135deg, #FEF2F2 0%, #FEE2E2 100%);
+    padding: 1.25rem;
+    border-radius: 16px;
+    margin-top: 1.5rem;
+    border: 1px solid #FECACA;
+    font-weight: 500;
+    position: relative;
+    animation: shake 0.5s ease-in-out;
+}
+
+.erro::before {
+    content: '⚠️';
+    margin-right: 0.5rem;
+    font-size: 1.1rem;
+}
+
+@keyframes shake {
+    0%, 20%, 40%, 60%, 80% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+}
+
+/* Container do resultado */
+.resultado {
+    display: none;
+    margin-top: 2rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+    border-radius: 20px;
+    border: 1px solid rgba(139, 92, 246, 0.1);
+    position: relative;
+    animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.resultado.show {
+    display: block;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.resultado h2 {
+    color: #1F2937;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+/* Container do valor do IMC */
+.imc-container {
+    text-align: center;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
+
+.imc-label {
+    font-size: 1rem;
+    color: #6B7280;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.imc-valor {
+    font-size: 3.5rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0.5rem 0;
+    text-shadow: 0 4px 8px rgba(139, 92, 246, 0.1);
+}
+
+/* Classificação */
+.classificacao {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 1.25rem 1.5rem;
+    border-radius: 16px;
+    margin: 1.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    position: relative;
+    overflow: hidden;
+}
+
+.classificacao::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.8s ease;
+}
+
+.classificacao:hover::before {
+    left: 100%;
+}
+
+/* Classes de classificação */
+.abaixo-peso { 
+    background: linear-gradient(135deg, #DBEAFE 0%, #BFDBFE 100%);
+    color: #1E40AF; 
+    border: 2px solid #3B82F6;
+}
+
+.peso-normal { 
+    background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+    color: #065F46; 
+    border: 2px solid #10B981;
+}
+
+.sobrepeso { 
+    background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+    color: #92400E; 
+    border: 2px solid #F59E0B;
+}
+
+.obesidade-1 { 
+    background: linear-gradient(135deg, #FEE2E2 0%, #FECACA 100%);
+    color: #991B1B; 
+    border: 2px solid #EF4444;
+}
+
+.obesidade-2 { 
+    background: linear-gradient(135deg, #FCE7F3 0%, #FBCFE8 100%);
+    color: #BE185D; 
+    border: 2px solid #EC4899;
+}
+
+.obesidade-3 { 
+    background: linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%);
+    color: #6B21A8; 
+    border: 2px solid #A855F7;
+}
+
+/* Dados resumo */
+.dados-resumo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.dado-item {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(139, 92, 246, 0.1);
+    transition: all 0.3s ease;
+}
+
+.dado-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.1);
+}
+
+.dado-label {
+    font-size: 0.9rem;
+    color: #6B7280;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.dado-valor {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1F2937;
+}
+
+/* Responsividade */
+@media (max-width: 640px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        padding: 2rem 1.5rem;
+        margin: 10px;
+        border-radius: 20px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .imc-valor {
+        font-size: 2.5rem;
+    }
+    
+    .dados-resumo {
+        grid-template-columns: 1fr;
+    }
+    
+    .classificacao {
+        font-size: 1rem;
+        padding: 1rem;
+    }
+}
+
+/* Animações extras */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+.loading {
+    animation: pulse 2s infinite;
+}
+
+/* Efeitos de hover no container */
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 24px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(236, 72, 153, 0.3));
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: xor;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.container:hover::before {
+    opacity: 1;
+}

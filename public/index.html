@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de IMC</title>
+     <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de IMC</h1>
+        <p class="subtitle">Descubra seu Índice de Massa Corporal</p>
+        
+        <form id="imcForm">
+            <div class="form-grupo">
+                <label for="nome">Nome Completo:</label>
+                <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
+            </div>
+            
+            <div class="form-grupo">
+                <label for="altura">Altura (metros):</label>
+                <input type="number" id="altura" name="altura" step="0.01" min="0.5" max="3.0" placeholder="Ex: 1.75" required>
+            </div>
+            
+            <div class="form-grupo">
+                <label for="peso">Peso (quilos):</label>
+                <input type="number" id="peso" name="peso" step="0.1" min="1" max="500" placeholder="Ex: 70.5" required>
+            </div>
+            
+            <button type="submit" id="btnCalcular">Calcular Meu IMC</button>
+        </form>
+        
+        <div id="loading" class="loading">
+            Calculando seu IMC...
+        </div>
+        
+        <div id="erro" class="erro">
+            <span id="mensagemErro"></span>
+        </div>
+        
+        <div id="resultado" class="resultado">
+            <h2 id="nomeResultado">Resultado do IMC</h2>
+            
+            <div class="imc-container">
+                <div class="imc-label">Seu IMC é</div>
+                <div class="imc-valor" id="imcValor">0.0</div>
+            </div>
+            
+            <div class="classificacao" id="classificacao">Classificação</div>
+            
+            <div class="dados-resumo">
+                <div class="dado-item">
+                    <div class="dado-label">Peso</div>
+                    <div class="dado-valor"><span id="pesoResultado">0</span> kg</div>
+                </div>
+                <div class="dado-item">
+                    <div class="dado-label">Altura</div>
+                    <div class="dado-valor"><span id="alturaResultado">0</span> m</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log(' DOM carregado');
+    
+    const form = document.getElementById('imcForm');
+    const loading = document.getElementById('loading');
+    const erro = document.getElementById('erro');
+    const mensagemErro = document.getElementById('mensagemErro');
+    const resultado = document.getElementById('resultado');
+    const btnCalcular = document.getElementById('btnCalcular');
+    
+    if (!form) {
+        console.error(' Formulário não encontrado!');
+        return;
+    }
+    
+    function mostrarErro(mensagem) {
+        console.error(' Erro:', mensagem);
+        mensagemErro.textContent = mensagem;
+        erro.style.display = 'block';
+        loading.style.display = 'none';
+        resultado.style.display = 'none';
+        btnCalcular.disabled = false;
+        btnCalcular.textContent = 'Calcular IMC';
+    }
+    
+    function mostrarLoading() {
+        loading.style.display = 'block';
+        erro.style.display = 'none';
+        resultado.style.display = 'none';
+        btnCalcular.disabled = true;
+        btnCalcular.textContent = 'Calculando...';
+    }
+    
+    function mostrarResultado(data) {
+    console.log('✅ Mostrando resultado:', data);
+    
+    document.getElementById('nomeResultado').textContent = `Resultado para ${data.nome}`;
+    document.getElementById('imcValor').textContent = data.imc;
+    document.getElementById('pesoResultado').textContent = data.peso;
+    document.getElementById('alturaResultado').textContent = data.altura;
+    
+    // Elemento da classificação
+    const classificacaoEl = document.getElementById('classificacao');
+    classificacaoEl.textContent = data.classificacao;
+    
+    // Remove todas as classes anteriores
+    classificacaoEl.className = 'classificacao';
+    
+    // Determinar classe baseada no valor do IMC
+    const imcValor = parseFloat(data.imc);
+    let classeCSS = '';
+    
+    if (imcValor < 18.5) {
+        classeCSS = 'abaixo-peso';
+    } else if (imcValor >= 18.5 && imcValor < 25) {
+        classeCSS = 'peso-normal';
+    } else if (imcValor >= 25 && imcValor < 30) {
+        classeCSS = 'sobrepeso';
+    } else if (imcValor >= 30 && imcValor < 35) {
+        classeCSS = 'obesidade-1';
+    } else if (imcValor >= 35 && imcValor < 40) {
+        classeCSS = 'obesidade-2';
+    } else if (imcValor >= 40) {
+        classeCSS = 'obesidade-3';
+    }
+    
+    // Aplicar a classe
+    classificacaoEl.classList.add(classeCSS);
+    console.log(`IMC: ${imcValor}, Classe aplicada: ${classeCSS}`);
+    
+    loading.style.display = 'none';
+    erro.style.display = 'none';
+    resultado.style.display = 'block';
+    btnCalcular.disabled = false;
+    btnCalcular.textContent = 'Calcular IMC';
+}
+    
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        console.log(' Formulário enviado');
+        
+        mostrarLoading();
+        
+        try {
+            // Coletar dados
+            const nome = document.getElementById('nome').value.trim();
+            const altura = document.getElementById('altura').value;
+            const peso = document.getElementById('peso').value;
+            
+            console.log(' Dados coletados:', { nome, altura, peso });
+            
+            // Validações básicas
+            if (!nome) {
+                throw new Error('Nome é obrigatório');
+            }
+            
+            if (!altura || isNaN(parseFloat(altura))) {
+                throw new Error('Altura deve ser um número válido');
+            }
+            
+            if (!peso || isNaN(parseFloat(peso))) {
+                throw new Error('Peso deve ser um número válido');
+            }
+            
+            const dados = {
+                nome: nome,
+                altura: parseFloat(altura),
+                peso: parseFloat(peso)
+            };
+            
+            console.log('Enviando para servidor:', dados);
+            
+            // Fazer requisição
+            const response = await fetch('/calcular-imc', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(dados)
+            });
+            
+            console.log(' Status da resposta:', response.status);
+            console.log(' Headers da resposta:', [...response.headers.entries()]);
+            
+            // Verificar se a resposta é JSON
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const textoResposta = await response.text();
+                console.error(' Resposta não é JSON:', textoResposta);
+                throw new Error('Servidor retornou resposta inválida (não JSON)');
+            }
+            
+            const data = await response.json();
+            console.log('Dados recebidos:', data);
+            
+            if (response.ok) {
+                mostrarResultado(data);
+            } else {
+                mostrarErro(data.erro || 'Erro desconhecido do servidor');
+            }
+            
+        } catch (error) {
+            console.error(' Erro na requisição:', error);
+            mostrarErro(error.message);
+        }
+    });
+});
+</script>
+</body>
+</html>
